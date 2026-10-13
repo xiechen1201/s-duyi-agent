@@ -1,0 +1,22 @@
+[project]
+name = "web-service"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "xiechenLocal", email = "2501869423@qq.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "agents",
+]
+
+[project.scripts]
+web-service = "web_service:main"
+
+[build-system]
+requires = ["uv_build>=0.13.0,<0.14.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+agents = { workspace = true }
