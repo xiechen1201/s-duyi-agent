@@ -1,0 +1,1 @@
+psycopg2-binary 数据库驱动同步版本。
