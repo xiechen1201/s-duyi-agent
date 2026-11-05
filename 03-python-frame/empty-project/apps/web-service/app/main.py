@@ -14,7 +14,5 @@ app = FastAPI(
 
 
 from app.api.webcome import router as webcome_router
-from app.api.items import router as items_router
 
 app.include_router(webcome_router)
-app.include_router(items_router, prefix="/items")
