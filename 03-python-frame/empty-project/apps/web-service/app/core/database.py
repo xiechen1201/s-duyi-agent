@@ -1,14 +1,17 @@
+from collections.abc import AsyncGenerator
+
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
     create_async_engine,
     async_sessionmaker,
 )
+
 from app.core.config import db_settings
 
 _engine: AsyncEngine | None = None
 
-# 创建引擎
+
 def get_engine() -> AsyncEngine:
     global _engine
 
@@ -23,15 +26,22 @@ def get_engine() -> AsyncEngine:
 
 _session_factory: async_sessionmaker[AsyncSession] | None = None
 
-# 创建会话工厂
+
 def get_session_factory() -> async_sessionmaker[AsyncSession]:
     global _session_factory
 
     if _session_factory is None:
         _session_factory = async_sessionmaker(
-            get_engine(), # 会话工厂需要引擎来创建
-            class_=AsyncSession,  # 明确指定使用异步 Session（默认）
+            get_engine(),
+            class_=AsyncSession,  # 明确指定使用异步 Session
             expire_on_commit=False,
+            autoflush=True,
         )
 
     return _session_factory
+
+
+async def get_db() -> AsyncGenerator[AsyncSession]:
+    """异步数据库会话依赖项"""
+    async with get_session_factory().begin() as session:
+        yield session
