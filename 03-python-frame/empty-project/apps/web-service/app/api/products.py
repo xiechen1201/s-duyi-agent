@@ -4,7 +4,12 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
-from app.schema.product import ProductBrief, ProductCreate, ProductResponse, ProductUpdate
+from app.schema.product import (
+    ProductBrief,
+    ProductCreate,
+    ProductResponse,
+    ProductUpdate,
+)
 from app.service.product_service import ProductService
 
 router = APIRouter(prefix="/api/products", tags=["商品"])
@@ -36,9 +41,7 @@ async def list_products(
 
 
 @router.get("/{product_id}", response_model=ProductResponse)
-async def get_product(
-    product_id: int, db: Annotated[AsyncSession, Depends(get_db)]
-):
+async def get_product(product_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
     result = await ProductService(db).get_product(product_id)
     if result is None:
         raise HTTPException(status_code=404, detail="商品不存在")
@@ -58,9 +61,7 @@ async def update_product(
 
 
 @router.delete("/{product_id}", status_code=204)
-async def delete_product(
-    product_id: int, db: Annotated[AsyncSession, Depends(get_db)]
-):
+async def delete_product(product_id: int, db: Annotated[AsyncSession, Depends(get_db)]):
     deleted = await ProductService(db).delete_product(product_id)
     if not deleted:
         raise HTTPException(status_code=404, detail="商品不存在")
