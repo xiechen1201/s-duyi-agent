@@ -28,3 +28,7 @@ DataBaseException ==> 422，422001，"数据问题"
 RequestValidationError ==> 422，422002，"数据验证失败"
 
 PROTOCOL_ERROR_MAP？
+
+是对 HTTPException 的映射，因为 HTTPException 是动态。
+
+针对 fastapi 自动抛出的 HTTPException 做了一个单独的字典（协议错误字典），专门用于处理 fastapi 有可能抛出的 HTTPException（404，405，415 等）。

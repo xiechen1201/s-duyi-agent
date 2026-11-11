@@ -8,6 +8,7 @@ from app.exception.handler.handlers import exception_handler
 
 app = FastAPI(
     title=web_settings.app_name,
+    # 生成错误文档
     description=generate_error_docs(),
     docs_url=None if common_settings.environment == "production" else "/docs",
     redoc_url=None if common_settings.environment == "production" else "/redoc",
