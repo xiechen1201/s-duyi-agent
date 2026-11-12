@@ -4,9 +4,6 @@ DS_Store
 # temp
 /temp
 
-# cache
-__pycache__
-
 # env
 .env
 
@@ -19,7 +16,6 @@ __pycache__/
 build/
 *.egg-info/
 .venv/
-.env
 
 # db
 .db

@@ -29,7 +29,6 @@ app.add_exception_handler(RequestValidationError, exception_handler)
 app.add_exception_handler(HTTPException, exception_handler)
 app.add_exception_handler(Exception, exception_handler)
 
-
 # 注册路由
 from app.api.products import router as product_router
 from app.api.categories import router as category_router

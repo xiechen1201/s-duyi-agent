@@ -34,5 +34,19 @@ DI 既可以实现 IOC，也可以实现 AOP。DI 不是实现 AOP 的唯一方�
 
 app.middleware("http")(my_middleware) 可以替换为 websocket，用于匹配 websocket 请求。
 
+response = await call_next(request)
+
+如果这里发生异常，则后续的逻辑代码不会执行。
+
+优化：
+
+1、第一个中间件函数统一出来 error，这样的话就必须把这个中间件函数放到最前面。
+
+2、
+
 ## 统一响应格式 
+
+## 性能调试
+
+## 跨域中间件
 
