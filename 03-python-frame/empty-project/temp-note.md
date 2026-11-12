@@ -1,34 +1,38 @@
-# 统一异常处理
+# 中间件
 
-有的时候异常要做统一的处理：
+目标是统一响应格式。
 
-- 日志记录
+```
+{
+    "code": 0,
+    "msg": "success",
+    "data": {}
+}
+```
 
-- 统一的响应格式
+还要做做安全控制、身份认证、CORS 处理、（核心业务逻辑）、日志记录等。
 
+所有的业务都要经过上面的过程。通过中间件解决。
 
-fastapi 如果指定了异常，
+## 核心概念
 
-if result is None:
-        raise HTTPException(status_code=404, detail="商品不存在")
-    return result
+IOC：选择权交出去
 
+AOP：共同的事情切出去
 
-就会按照指定的异常处理函数，进行处理。
+DI 既可以实现 IOC，也可以实现 AOP。DI 不是实现 AOP 的唯一方式。
 
-否则，就会按照默认的异常处理函数，进行统一处理，返回固定 500 错误。
+## 理解中间件
 
-（做了一些事情，但是做的不够）
+分为函数形式和类形式。
 
-## 设计
+当注册了一个应用的时候，请求 ==> 执行第一个中间件函数 ==> 拿到函数结果作为响应。
 
-异常配置中心（做一个错误映射）：
+通过中间件的函数 call_next 进行串联。`async def my_middleware(request: Request, call_next):`
 
-DataBaseException ==> 422，422001，"数据问题"
-RequestValidationError ==> 422，422002，"数据验证失败"
+如果没有调用 call_next 那么中间件函数就中断了。
 
-PROTOCOL_ERROR_MAP？
+app.middleware("http")(my_middleware) 可以替换为 websocket，用于匹配 websocket 请求。
 
-是对 HTTPException 的映射，因为 HTTPException 是动态。
+## 统一响应格式 
 
-针对 fastapi 自动抛出的 HTTPException 做了一个单独的字典（协议错误字典），专门用于处理 fastapi 有可能抛出的 HTTPException（404，405，415 等）。
