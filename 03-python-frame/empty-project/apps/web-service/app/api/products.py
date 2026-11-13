@@ -60,7 +60,7 @@ async def update_product(
 
 @router.delete("/{product_id}", status_code=204)
 async def delete_product(
-    product_id: int, db: Annotated[AsyncSession, Depends(get_db)]
+    product_id: int, db: Annotated[AsyncSession, Depends(get_db, scope="function")]
 ):
     deleted = await ProductService(db).delete_product(product_id)
     if not deleted:

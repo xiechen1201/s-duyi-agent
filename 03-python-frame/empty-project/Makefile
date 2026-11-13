@@ -7,6 +7,9 @@ dev:
 debug:
 	uv run --package web-service fastapi run apps/web-service/app/main.py --port 8000
 
+test:
+	uv run pytest apps/web-service/test/integration/ -v
+
 # 生成迁移脚本
 db-migrate:
 	uv run --package web-service alembic -c apps/web-service/alembic.ini revision --autogenerate -m "$(message)"

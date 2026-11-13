@@ -56,7 +56,7 @@ async def update_category(
 
 @router.delete("/{category_id}", status_code=204)
 async def delete_category(
-    category_id: int, db: Annotated[AsyncSession, Depends(get_db)]
+    category_id: int, db: Annotated[AsyncSession, Depends(get_db, scope="function")]
 ):
     deleted = await CategoryService(db).delete_category(category_id)
     if not deleted:
