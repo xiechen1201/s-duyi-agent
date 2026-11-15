@@ -8,7 +8,19 @@ debug:
 	uv run --package web-service fastapi run apps/web-service/app/main.py --port 8000
 
 test:
-	uv run pytest apps/web-service/test/integration/ -v
+	uv run pytest apps/web-service/test/unit/ apps/web-service/test/integration/ -q --cov=app --cov-report=term-missing --cov-fail-under=80
+
+test-unit:
+	uv run pytest apps/web-service/test/unit/ -q
+
+test-integration:
+	uv run pytest apps/web-service/test/integration/ -q
+
+test-e2e:
+	uv run pytest apps/web-service/test/e2e/ -q
+
+test-smoke:
+	uv run pytest apps/web-service/test/unit/ apps/web-service/test/integration/ apps/web-service/test/e2e/ -q -m smoke
 
 # 生成迁移脚本
 db-migrate:

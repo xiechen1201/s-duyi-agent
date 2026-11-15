@@ -7,7 +7,6 @@ from contextlib import contextmanager
 
 # ─── 必须在任何 app 导入之前设置环境变量 ───
 
-# 设置系统环境变量，数据库名称
 os.environ.setdefault("DB_NAME", "duyi_test_db")
 from app.core.config import db_settings
 
@@ -22,7 +21,6 @@ _log_file = None
 
 @contextmanager
 def _create_cur():
-    # 连接数据库
     conn = psycopg2.connect(  # pyright: ignore[reportCallIssue, reportArgumentType]
         host=db_settings.host,
         port=db_settings.port,
@@ -41,7 +39,7 @@ def _create_cur():
 
 def _start_server():
     global _server_process, _log_file
-    tmp_dir = Path(__file__).resolve().parent.parent.parent.parent / "tmp"
+    tmp_dir = Path(__file__).resolve().parent.parent.parent.parent.parent / "tmp"
     tmp_dir.mkdir(exist_ok=True)
     _log_file = open(tmp_dir / "test_server.log", "w")
     _server_process = subprocess.Popen(
@@ -83,26 +81,22 @@ def _stop_server():
         _log_file.close()
         _log_file = None
 
-# 准备环境（会话开始）
+
 def pytest_sessionstart(session):
     with _create_cur() as cur:
-        # 关闭所有正在运行的连接
         cur.execute(
             f"SELECT pg_terminate_backend(pg_stat_activity.pid) "
             f"FROM pg_stat_activity "
             f"WHERE pg_stat_activity.datname = '{db_settings.name}' "
             f"AND pid <> pg_backend_pid()"
         )
-        # 删除并创建测试数据库
         cur.execute(f"DROP DATABASE IF EXISTS {db_settings.name}")
-        # 创建测试数据库
         cur.execute(f"CREATE DATABASE {db_settings.name}")
 
     from alembic.config import Config
     from alembic import command
 
-    # 执行数据库迁移
-    WEB_SERVICE_DIR = Path(__file__).resolve().parent.parent
+    WEB_SERVICE_DIR = Path(__file__).resolve().parent.parent.parent
     alembic_cfg = Config()
     alembic_cfg.set_main_option("script_location", str(WEB_SERVICE_DIR / "migrations"))
     alembic_cfg.set_main_option(
@@ -111,11 +105,9 @@ def pytest_sessionstart(session):
     )
     command.upgrade(alembic_cfg, "head")
 
-    # 启动测试服务器
     _start_server()
 
 
-# 后续处理（会话结束）
 def pytest_sessionfinish(session, exitstatus):
     _stop_server()
 
@@ -148,9 +140,7 @@ async def async_client():
 
     async with AsyncClient(base_url=f"http://localhost:{TEST_SERVER_PORT}") as client:
         yield client
-    # windows同学可选：去掉每个测试 AsyncClient 创建时的 SSL 证书加载（每个耗时1.35s）
-    # async with AsyncClient(base_url=f"http://localhost:{TEST_SERVER_PORT}",verify=False) as client:
-    #         yield client
+
 
 @pytest.fixture(autouse=True)
 async def cleanup_db(async_client):
@@ -171,9 +161,4 @@ async def cleanup_db(async_client):
             await conn.execute(
                 text(f'TRUNCATE TABLE "{table.name}" RESTART IDENTITY CASCADE')
             )
-
-    # window同学用可选 DELETE 而非 TRUNCATE： TRUNCATE 每次约 180ms，DELETE 仅约 10ms
-    # async with engine.begin() as conn:
-    #     for table in reversed(Base.metadata.sorted_tables):
-    #         await conn.execute(table.delete())
     await engine.dispose()
