@@ -1,4 +1,4 @@
-.PHONY: dev debug db-migrate db-upgrade db-downgrade
+.PHONY: dev debug test test-unit test-integration test-e2e test-smoke db-migrate db-upgrade db-downgrade
 
 # 启动服务
 dev:
@@ -17,7 +17,7 @@ test-integration:
 	uv run pytest apps/web-service/test/integration/ -q
 
 test-e2e:
-	uv run pytest apps/web-service/test/e2e/ -q
+	uv run pytest apps/web-service/test/e2e/ -v
 
 test-smoke:
 	uv run pytest apps/web-service/test/unit/ apps/web-service/test/integration/ apps/web-service/test/e2e/ -q -m smoke

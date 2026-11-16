@@ -1,5 +1,6 @@
 # mac
 DS_Store
+.DS_Store
 
 # temp
 /temp
@@ -19,3 +20,6 @@ build/
 
 # db
 .db
+
+# log
+*.log

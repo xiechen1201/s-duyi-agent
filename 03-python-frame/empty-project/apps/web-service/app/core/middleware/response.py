@@ -1,8 +1,6 @@
 import json
-
 from fastapi import Request
 from fastapi.responses import JSONResponse
-
 
 async def unified_response(request: Request, call_next):
     response = await call_next(request)
