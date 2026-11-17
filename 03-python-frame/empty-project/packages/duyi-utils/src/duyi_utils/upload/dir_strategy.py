@@ -8,14 +8,11 @@ def date_uuid_strategy() -> str:
     目录结构包含年月日层级，存放路径格式为：
     {base}/{YYYY}/{MM}/{DD}/
 
-    Args:
-        filename: 文件名字符串（未使用，保留以统一策略接口）。
-
     Returns:
         目录路径字符串，以 / 结尾。
 
     Examples:
-        >>> date_uuid_strategy("photo.png")
+        >>> date_uuid_strategy()
         "uploads/2025/06/26/"
     """
     now = datetime.now()
@@ -29,14 +26,11 @@ def flat_uuid_strategy() -> str:
     所有文件放在同一目录下，存放路径格式为：
     {base}/
 
-    Args:
-        filename: 文件名字符串（未使用，保留以统一策略接口）。
-
     Returns:
         目录路径字符串，以 / 结尾。
 
     Examples:
-        >>> flat_uuid_strategy("photo.png")
+        >>> flat_uuid_strategy()
         "uploads/"
     """
     return "uploads/"
