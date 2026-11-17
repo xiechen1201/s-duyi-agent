@@ -12,7 +12,6 @@ if TYPE_CHECKING:
 
 
 class Sku(Base, IDMixin):
-
     product_id: Mapped[int] = mapped_column(
         ForeignKey("product.id", ondelete="CASCADE")
     )
