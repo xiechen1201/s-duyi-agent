@@ -3,6 +3,10 @@ import os
 from contextlib import contextmanager
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).resolve().parent.parent.parent.parent.parent / ".env.test")
+
 os.environ["DB_NAME"] = "duyi_integration_test_db"
 
 from app.core.config import DBSettings
@@ -12,7 +16,7 @@ db_settings = DBSettings()
 import pytest
 import psycopg2
 from httpx import ASGITransport, AsyncClient
-from sqlalchemy import text
+from sqlalchemy import text 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
 
@@ -88,9 +92,13 @@ async def db_session():
 
     async with engine.begin() as conn:
         for table in reversed(Base.metadata.sorted_tables):
-            await conn.execute(text(f'TRUNCATE TABLE "{table.name}" RESTART IDENTITY CASCADE'))
+            await conn.execute(
+                text(f'TRUNCATE TABLE "{table.name}" RESTART IDENTITY CASCADE')
+            )
 
-    session_factory = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+    session_factory = async_sessionmaker(
+        engine, class_=AsyncSession, expire_on_commit=False
+    )
     async with session_factory() as session:
         yield session
 
