@@ -17,10 +17,13 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# 用项目配置覆盖 alembic.ini 中的 sqlalchemy.url
+# 命令行使用项目配置，保留测试通过 Config() 显式传入的连接地址。
 # 使用同步驱动 postgresql://（不需要 +asyncpg）
-config.set_main_option("sqlalchemy.url",
-    f"postgresql://{db_settings.user}:{db_settings.password}@{db_settings.host}:{db_settings.port}/{db_settings.name}")
+if config.config_file_name is not None or not config.get_main_option("sqlalchemy.url"):
+    config.set_main_option(
+        "sqlalchemy.url",
+        f"postgresql://{db_settings.user}:{db_settings.password}@{db_settings.host}:{db_settings.port}/{db_settings.name}",
+    )
 
 # 告诉 Alembic 你的模型元数据，用于自动生成迁移
 target_metadata = Base.metadata

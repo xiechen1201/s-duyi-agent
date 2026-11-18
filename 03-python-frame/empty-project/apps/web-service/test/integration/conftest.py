@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent.parent.parent.parent / ".env.test")
 
-os.environ["DB_NAME"] = "duyi_integration_test_db"
+TEST_DB_NAME = "duyi_integration_test_db"
+os.environ["DB_NAME"] = TEST_DB_NAME
 
 from app.core.config import DBSettings
 
@@ -25,6 +26,9 @@ DB_URL = f"postgresql+asyncpg://{db_settings.user}:{db_settings.password}@{db_se
 
 @contextmanager
 def _create_cur():
+    if db_settings.name != TEST_DB_NAME:
+        raise RuntimeError(f"集成测试只允许重建或删除 {TEST_DB_NAME}")
+
     conn = psycopg2.connect(
         host=db_settings.host,
         port=db_settings.port,

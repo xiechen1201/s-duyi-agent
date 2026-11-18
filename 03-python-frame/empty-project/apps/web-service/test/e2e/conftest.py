@@ -11,7 +11,8 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent.parent.parent.parent / ".env.test")
 
-os.environ.setdefault("DB_NAME", "duyi_e2e_test_db")
+TEST_DB_NAME = "duyi_e2e_test_db"
+os.environ["DB_NAME"] = TEST_DB_NAME
 from app.core.config import DBSettings
 
 db_settings = DBSettings()
@@ -27,6 +28,9 @@ _log_file = None
 
 @contextmanager
 def _create_cur():
+    if db_settings.name != TEST_DB_NAME:
+        raise RuntimeError(f"E2E 测试只允许重建或删除 {TEST_DB_NAME}")
+
     conn = psycopg2.connect(  # pyright: ignore[reportCallIssue, reportArgumentType]
         host=db_settings.host,
         port=db_settings.port,
@@ -62,6 +66,7 @@ def _start_server():
         ],
         stdout=_log_file,
         stderr=subprocess.STDOUT,
+        env={**os.environ, "DB_NAME": TEST_DB_NAME},
     )
     import httpx
 

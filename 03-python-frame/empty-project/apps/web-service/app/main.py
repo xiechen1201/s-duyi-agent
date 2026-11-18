@@ -7,7 +7,19 @@ from app.exception.handler.docs import generate_error_docs
 from app.exception.handler.handlers import exception_handler
 from app.core.openapi import setup_openapi
 
+from app.service.setting_service import SettingService
+from app.core.database import get_session_factory
+from contextlib import asynccontextmanager
+from collections.abc import AsyncIterator
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
+    async with get_session_factory().begin() as session:
+        await SettingService(session).initialize()
+    yield
+
 app = FastAPI(
+    lifespan=lifespan,
     title=web_settings.app_name,
     # 生成错误文档
     description=generate_error_docs(),
@@ -33,7 +45,9 @@ app.add_exception_handler(Exception, exception_handler)
 from app.api.products import router as product_router
 from app.api.categories import router as category_router
 from app.api.skus import router as sku_router
+from app.api.settings import router as settings_router
 
 app.include_router(product_router)
 app.include_router(category_router)
 app.include_router(sku_router)
+app.include_router(settings_router)
