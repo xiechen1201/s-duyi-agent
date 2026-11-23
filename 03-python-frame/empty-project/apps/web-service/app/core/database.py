@@ -42,6 +42,17 @@ def get_session_factory() -> async_sessionmaker[AsyncSession]:
 
 
 async def get_db() -> AsyncGenerator[AsyncSession]:
-    """异步数据库会话依赖项"""
-    async with get_session_factory().begin() as session:
+    session = get_session_factory()()
+    session.begin()
+    try:
         yield session
+    except:
+        await session.rollback()
+        raise
+    else:
+        await session.commit()
+    finally:
+        await session.close()
+
+    # async with get_session_factory().begin() as session:
+    #     yield session

@@ -1,6 +1,6 @@
 
  ⚡️ Starting FastAPI in development mode
-['/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/apps/web-service', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/.venv/bin', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python314.zip', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python3.14', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python3.14/lib-dynload', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/.venv/lib/python3.14/site-packages', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/packages/duyi-utils/src']
+['/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/apps/web-service', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/.venv/bin', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python314.zip', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python3.14', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python3.14/lib-dynload', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/.venv/lib/python3.14/site-packages', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/packages/duyi-utils/src', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/apps/web-service']
  
  🐍 Using import string: app.main:app
  
@@ -11,28 +11,30 @@
  
 INFO:     Will watch for changes in these directories: ['/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project']
 INFO:     Uvicorn running on http://127.0.0.1:18000 (Press CTRL+C to quit)
-INFO:     Started reloader process [13013] using WatchFiles
-INFO:     Started server process [13015]
+INFO:     Started reloader process [96970] using WatchFiles
+INFO:     Started server process [96972]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
-['/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/apps/web-service', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/.venv/bin', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python314.zip', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python3.14', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python3.14/lib-dynload', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/.venv/lib/python3.14/site-packages', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/packages/duyi-utils/src']
-INFO:     127.0.0.1:63237 - "GET /docs HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63260 - "POST /api/categories HTTP/1.1" 201 Created
-INFO:     127.0.0.1:63263 - "POST /api/categories HTTP/1.1" 201 Created
-INFO:     127.0.0.1:63265 - "GET /api/categories/1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63268 - "POST /api/products HTTP/1.1" 201 Created
-INFO:     127.0.0.1:63271 - "POST /api/products HTTP/1.1" 201 Created
-INFO:     127.0.0.1:63273 - "GET /api/products/1 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63276 - "GET /api/settings HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63279 - "PUT /api/settings HTTP/1.1" 200 OK
-INFO:     127.0.0.1:63282 - "POST /api/products HTTP/1.1" 201 Created
-INFO:     127.0.0.1:63284 - "POST /api/products/1/skus HTTP/1.1" 201 Created
-INFO:     127.0.0.1:63287 - "POST /api/products HTTP/1.1" 201 Created
-INFO:     127.0.0.1:63289 - "POST /api/products/1/skus HTTP/1.1" 201 Created
-INFO:     127.0.0.1:63291 - "GET /api/skus/1 HTTP/1.1" 200 OK
+['/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/apps/web-service', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/.venv/bin', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python314.zip', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python3.14', '/Users/xiechen/.local/share/uv/python/cpython-3.14.8-macos-aarch64-none/lib/python3.14/lib-dynload', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/.venv/lib/python3.14/site-packages', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/packages/duyi-utils/src', '/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/apps/web-service']
+INFO:     127.0.0.1:51829 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51832 - "POST /api/categories HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51835 - "POST /api/categories HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51837 - "GET /api/categories/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51840 - "POST /api/products HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51845 - "POST /api/products HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51847 - "GET /api/products/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51850 - "GET /api/settings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51854 - "PUT /api/settings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51857 - "POST /api/products HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51859 - "POST /api/products/1/skus HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51862 - "POST /api/products HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51864 - "POST /api/products/1/skus HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51866 - "GET /api/skus/1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51869 - "PUT /api/settings HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51871 - "POST /api/upload/sign HTTP/1.1" 200 OK
 INFO:     Shutting down
 INFO:     Waiting for application shutdown.
 INFO:     Application shutdown complete.
-INFO:     Finished server process [13015]
-INFO:     Stopping reloader process [13013]
+INFO:     Finished server process [96972]
+INFO:     Stopping reloader process [96970]
 

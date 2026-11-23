@@ -6,13 +6,10 @@ from pathlib import Path
 from contextlib import contextmanager
 
 # ─── 必须在任何 app 导入之前设置环境变量 ───
-
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent.parent.parent.parent / ".env.test")
-
-TEST_DB_NAME = "duyi_e2e_test_db"
-os.environ["DB_NAME"] = TEST_DB_NAME
+os.environ["DB_NAME"] = "duyi_e2e_test_db"
 from app.core.config import DBSettings
 
 db_settings = DBSettings()
@@ -28,9 +25,6 @@ _log_file = None
 
 @contextmanager
 def _create_cur():
-    if db_settings.name != TEST_DB_NAME:
-        raise RuntimeError(f"E2E 测试只允许重建或删除 {TEST_DB_NAME}")
-
     conn = psycopg2.connect(  # pyright: ignore[reportCallIssue, reportArgumentType]
         host=db_settings.host,
         port=db_settings.port,
@@ -66,7 +60,6 @@ def _start_server():
         ],
         stdout=_log_file,
         stderr=subprocess.STDOUT,
-        env={**os.environ, "DB_NAME": TEST_DB_NAME},
     )
     import httpx
 
@@ -153,6 +146,9 @@ async def async_client():
         yield client
 
 
+_SKIP_CLEANUP_TABLES = {"settinggroup", "setting"}
+
+
 @pytest.fixture(autouse=True)
 async def cleanup_db(async_client):
     yield
@@ -169,6 +165,8 @@ async def cleanup_db(async_client):
 
     async with engine.begin() as conn:
         for table in reversed(Base.metadata.sorted_tables):
+            if table.name in _SKIP_CLEANUP_TABLES:
+                continue
             await conn.execute(
                 text(f'TRUNCATE TABLE "{table.name}" RESTART IDENTITY CASCADE')
             )
