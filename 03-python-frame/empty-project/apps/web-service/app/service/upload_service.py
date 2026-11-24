@@ -53,8 +53,8 @@ class UploadService(BaseService):
 
         oss_settings = await self._get_oss_settings()
 
-        await self.db.commit()
-        await self.db.close()
+        await self._db.commit()
+        await self._db.close()
 
         config = AliyunOSSConfig(
             access_key_id=oss_settings["oss_access_key_id"],
