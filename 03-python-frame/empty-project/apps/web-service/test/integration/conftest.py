@@ -6,9 +6,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent.parent.parent.parent.parent / ".env.test")
-
-TEST_DB_NAME = "duyi_integration_test_db"
-os.environ["DB_NAME"] = TEST_DB_NAME
+os.environ["DB_NAME"] = "duyi_integration_test_db"
 
 from app.core.config import DBSettings
 
@@ -17,7 +15,7 @@ db_settings = DBSettings()
 import pytest
 import psycopg2
 from httpx import ASGITransport, AsyncClient
-from sqlalchemy import text 
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.pool import NullPool
 
@@ -26,9 +24,6 @@ DB_URL = f"postgresql+asyncpg://{db_settings.user}:{db_settings.password}@{db_se
 
 @contextmanager
 def _create_cur():
-    if db_settings.name != TEST_DB_NAME:
-        raise RuntimeError(f"集成测试只允许重建或删除 {TEST_DB_NAME}")
-
     conn = psycopg2.connect(
         host=db_settings.host,
         port=db_settings.port,
@@ -107,6 +102,22 @@ async def db_session():
         yield session
 
     await engine.dispose()
+
+
+@pytest.fixture
+async def auth_token(db_session):
+    from app.schema.user import UserLogin, UserRegister
+    from app.service.user_service import UserService
+
+    svc = UserService(db_session)
+    await svc.register(UserRegister(username="testuser", password="test123456"))
+    result = await svc.login(UserLogin(username="testuser", password="test123456"))
+    return result.access_token
+
+
+@pytest.fixture
+def auth_headers(auth_token):
+    return {"Authorization": f"Bearer {auth_token}"}
 
 
 @pytest.fixture

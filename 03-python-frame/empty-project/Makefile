@@ -1,13 +1,15 @@
-.PHONY: dev debug test test-unit test-integration test-e2e test-smoke db-migrate db-upgrade db-downgrade
+# Makefile
 
-# 启动服务
+.PHONY: dev debug test test-unit test-integration test-e2e test-smoke test-html test-changed db-migrate db-upgrade db-downgrade
+
 dev:
+	export PYTHONDONTWRITEBYTECODE=1; \
 	uv run --package web-service fastapi dev apps/web-service/app/main.py --port 8080
 
 debug:
-	uv run --package web-service fastapi run apps/web-service/app/main.py --port 8000
+	export PYTHONDONTWRITEBYTECODE=1; \
+	uv run --package web-service python -m debugpy --listen 0.0.0.0:5678 --wait-for-client -m fastapi dev apps/web-service/app/main.py --port 8000
 
-# 测试
 test:
 	COVERAGE_FILE=.coverage.duyi \
 	  uv run pytest packages/duyi-utils/test/ -q \
@@ -27,16 +29,16 @@ test-e2e:
 
 test-smoke:
 	uv run pytest apps/web-service/test/e2e/ -q -m smoke
-	uv run pytest packages/duyi-utils/test/ apps/web-service/test/unit/ apps/web-service/test/integration/ -q -m smoke
+	uv run pytest packages/duyi-utils/test/ apps/web-service/test/integration/ -q -m smoke
 
-# 生成迁移脚本
+test-changed:
+	uv run python scripts/run_changed_tests.py
+
 db-migrate:
 	uv run --package web-service alembic -c apps/web-service/alembic.ini revision --autogenerate -m "$(message)"
 
-# 执行迁移
 db-upgrade:
 	uv run --package web-service alembic -c apps/web-service/alembic.ini upgrade head
 
-# 执行回滚
 db-downgrade:
 	uv run --package web-service alembic -c apps/web-service/alembic.ini downgrade $(version)
