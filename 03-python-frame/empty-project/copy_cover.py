@@ -2,7 +2,7 @@ import os
 import shutil
 
 source_dir = (
-    "/Users/xiechen/Desktop/python-framework-main/17. 用户系统/duyi-service"
+    "/Users/xiechen/Desktop/python-framework-main/18. 日志/duyi-service"
 )
 
 target_dir = "/Users/xiechen/Documents/code-personal/s-duyi-agent/03-python-frame/empty-project/"
