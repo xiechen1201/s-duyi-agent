@@ -9,7 +9,6 @@ from app.service.upload_service import UploadService
 
 router = APIRouter(prefix="/api/upload", tags=["文件上传"])
 
-
 @router.post("/sign", response_model=UploadSignResponse)
 async def get_upload_sign(
     data: UploadSignRequest,

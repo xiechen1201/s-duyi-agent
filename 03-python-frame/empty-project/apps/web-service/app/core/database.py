@@ -79,6 +79,10 @@ def get_session_factory() -> async_sessionmaker[AsyncSession]:
 
 
 async def get_db() -> AsyncGenerator[AsyncSession]:
+
+     # async with get_session_factory().begin() as session:
+     #     yield session
+    
     session = get_session_factory()()
     session.begin()
     try:
@@ -91,5 +95,4 @@ async def get_db() -> AsyncGenerator[AsyncSession]:
     finally:
         await session.close()
 
-    # async with get_session_factory().begin() as session:
-    #     yield session
+   
